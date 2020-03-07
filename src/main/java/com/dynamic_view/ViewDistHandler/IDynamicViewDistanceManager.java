@@ -1,0 +1,14 @@
+package com.dynamic_view.ViewDistHandler;
+
+/**
+ * Interface for dynamic view distance managers.
+ */
+public interface IDynamicViewDistanceManager
+{
+    void initViewDist();
+
+    /**
+     * Updates the current view distance based on server load.
+     */
+    void updateViewDistForMeanTick();
+}

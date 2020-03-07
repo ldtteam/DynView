@@ -51,14 +51,20 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
         if (meanTickTime - UPDATE_LEEWAY > meanTickToStayBelow && currentChunkViewDist > minChunkViewDist)
         {
             currentChunkViewDist--;
-            DynView.LOGGER.info("Mean tick: " + (Math.round(meanTickTime * 100) / 100) + "ms decreasing chunk view distance to: " + currentChunkViewDist);
+            if (DynView.getConfig().getCommonConfig().logMessages.get())
+            {
+                DynView.LOGGER.info("Mean tick: " + (Math.round(meanTickTime * 100) / 100) + "ms decreasing chunk view distance to: " + currentChunkViewDist);
+            }
             server.getPlayerList().setViewDistance(currentChunkViewDist);
         }
 
         if (meanTickTime + UPDATE_LEEWAY < meanTickToStayBelow && currentChunkViewDist < maxChunkViewDist)
         {
             currentChunkViewDist++;
-            DynView.LOGGER.info("Mean tick: " + (Math.round(meanTickTime * 100) / 100) + "ms increasing chunk view distance to: " + currentChunkViewDist);
+            if (DynView.getConfig().getCommonConfig().logMessages.get())
+            {
+                DynView.LOGGER.info("Mean tick: " + (Math.round(meanTickTime * 100) / 100) + "ms increasing chunk view distance to: " + currentChunkViewDist);
+            }
             server.getPlayerList().setViewDistance(currentChunkViewDist);
         }
     }

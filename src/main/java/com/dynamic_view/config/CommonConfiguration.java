@@ -4,10 +4,11 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 public class CommonConfiguration
 {
-    public final ForgeConfigSpec.IntValue minChunkViewDist;
-    public final ForgeConfigSpec.IntValue maxChunkViewDist;
-    public final ForgeConfigSpec.IntValue meanAvgTickTime;
-    public final ForgeConfigSpec.IntValue viewDistanceUpdateRate;
+    public final ForgeConfigSpec.IntValue     minChunkViewDist;
+    public final ForgeConfigSpec.IntValue     maxChunkViewDist;
+    public final ForgeConfigSpec.IntValue     meanAvgTickTime;
+    public final ForgeConfigSpec.IntValue     viewDistanceUpdateRate;
+    public final ForgeConfigSpec.BooleanValue logMessages;
 
     protected CommonConfiguration(final ForgeConfigSpec.Builder builder)
     {
@@ -25,6 +26,9 @@ public class CommonConfiguration
 
         builder.comment("The update frequency of average server tick time checks to update view distances, default is every 30 seconds");
         viewDistanceUpdateRate = builder.defineInRange("viewDistanceUpdateRate", 30, 1, 1000);
+
+        builder.comment("Whether to output log messages for actions done, its helpful to balance the other settings nicely.");
+        logMessages = builder.define("logMessages", true);
 
         // Escapes the current category level
         builder.pop();

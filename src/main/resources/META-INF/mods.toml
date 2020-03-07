@@ -47,6 +47,6 @@ Dynamic view distance mod which dynamically changes chunk view distance to fit s
 [[dependencies.dynview]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.15,1.16]"
+    versionRange="[1.14,1.17]"
     ordering="NONE"
     side="SERVER"

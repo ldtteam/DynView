@@ -6,19 +6,16 @@ import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceManager
 {
-    private static final int                              UPDATE_LEEWAY        = 2;
+    private static final int                              UPDATE_LEEWAY = 3;
     private static       ServerDynamicViewDistanceManager instance;
-    private final        int                              minChunkViewDist;
-    private final        int                              maxChunkViewDist;
-    private final        double                           meanTickToStayBelow;
-    private              int                              currentChunkViewDist = 0;
+    public static        int                              minChunkViewDist;
+    public static        int                              maxChunkViewDist;
+    public static        double                           meanTickToStayBelow;
+
+    private int currentChunkViewDist = 0;
 
     private ServerDynamicViewDistanceManager()
     {
-        minChunkViewDist = DynView.getConfig().getCommonConfig().minChunkViewDist.get();
-        maxChunkViewDist = DynView.getConfig().getCommonConfig().maxChunkViewDist.get();
-        meanTickToStayBelow = DynView.getConfig().getCommonConfig().meanAvgTickTime.get();
-        currentChunkViewDist = minChunkViewDist;
     }
 
     public static IDynamicViewDistanceManager getInstance()
@@ -33,11 +30,12 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
     @Override
     public void initViewDist()
     {
-        ServerLifecycleHooks.getCurrentServer().getPlayerList().setViewDistance(currentChunkViewDist);
+        currentChunkViewDist = minChunkViewDist;
+        ServerLifecycleHooks.getCurrentServer().getPlayerList().setViewDistance(minChunkViewDist);
     }
 
     @Override
-    public void updateViewDistForMeanTick()
+    public void updateViewDistForMeanTick(final int meanTickTime)
     {
         final MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
 
@@ -46,14 +44,12 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
             return;
         }
 
-        final double meanTickTime = average(server.tickTimeArray) * 1.0E-6D;
-
         if (meanTickTime - UPDATE_LEEWAY > meanTickToStayBelow && currentChunkViewDist > minChunkViewDist)
         {
             currentChunkViewDist--;
             if (DynView.getConfig().getCommonConfig().logMessages.get())
             {
-                DynView.LOGGER.info("Mean tick: " + (Math.round(meanTickTime * 100) / 100) + "ms decreasing chunk view distance to: " + currentChunkViewDist);
+                DynView.LOGGER.info("Mean tick: " + meanTickTime + "ms decreasing chunk view distance to: " + currentChunkViewDist);
             }
             server.getPlayerList().setViewDistance(currentChunkViewDist);
         }
@@ -63,30 +59,9 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
             currentChunkViewDist++;
             if (DynView.getConfig().getCommonConfig().logMessages.get())
             {
-                DynView.LOGGER.info("Mean tick: " + (Math.round(meanTickTime * 100) / 100) + "ms increasing chunk view distance to: " + currentChunkViewDist);
+                DynView.LOGGER.info("Mean tick: " + meanTickTime + "ms increasing chunk view distance to: " + currentChunkViewDist);
             }
             server.getPlayerList().setViewDistance(currentChunkViewDist);
         }
-    }
-
-    /**
-     * Averages the arrays values.
-     *
-     * @param values
-     * @return
-     */
-    private static long average(long[] values)
-    {
-        if (values == null || values.length == 0)
-        {
-            return 0L;
-        }
-
-        long sum = 0L;
-        for (long v : values)
-        {
-            sum += v;
-        }
-        return sum / values.length;
     }
 }

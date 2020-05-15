@@ -9,6 +9,7 @@ public interface IDynamicViewDistanceManager
 
     /**
      * Updates the current view distance based on server load.
+     * @param meanTick mean tick time
      */
-    void updateViewDistForMeanTick();
+    void updateViewDistForMeanTick(final int meanTick);
 }

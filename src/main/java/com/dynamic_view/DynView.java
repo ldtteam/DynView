@@ -2,6 +2,7 @@ package com.dynamic_view;
 
 import com.dynamic_view.config.Configuration;
 import com.dynamic_view.event.EventHandler;
+import com.dynamic_view.event.ModBusEventHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -21,10 +22,10 @@ public class DynView
 
     public DynView()
     {
-
         config = new Configuration();
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         Mod.EventBusSubscriber.Bus.FORGE.bus().get().register(EventHandler.class);
+        Mod.EventBusSubscriber.Bus.MOD.bus().get().register(ModBusEventHandler.class);
     }
 
     public static Configuration getConfig()

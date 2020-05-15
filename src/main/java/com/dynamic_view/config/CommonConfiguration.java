@@ -15,7 +15,7 @@ public class CommonConfiguration
         builder.push("Dynamic chunk view distance settings");
 
         builder.comment("The minimum chunk view distance allowed to use, set to what players should get at least. default: 4");
-        minChunkViewDist = builder.defineInRange("minChunkViewDist", 4, 1, 200);
+        minChunkViewDist = builder.defineInRange("minChunkViewDist", 5, 3, 200);
 
         builder.comment("The maximum chunk view distance allowed to use, set to the max which a player could benefit from. default: 20");
         maxChunkViewDist = builder.defineInRange("maxChunkViewDist", 20, 1, 200);

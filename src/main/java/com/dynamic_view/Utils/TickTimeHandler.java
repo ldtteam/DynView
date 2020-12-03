@@ -1,7 +1,7 @@
 package com.dynamic_view.Utils;
 
 import com.dynamic_view.ViewDistHandler.ServerDynamicViewDistanceManager;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.minecraftforge.fml.server.FMLServerHandler;
 
 public class TickTimeHandler
 {
@@ -32,7 +32,7 @@ public class TickTimeHandler
 
         if (tickTimer % 20 == 0)
         {
-            meanTickSum += average(ServerLifecycleHooks.getCurrentServer().tickTimeArray) * 1.0E-6D;
+            meanTickSum += average(FMLServerHandler.instance().getServer().tickTimeArray) * 1.0E-6D;
             meanTickCount++;
 
             if (tickTimer >= serverTickTimerInterval)

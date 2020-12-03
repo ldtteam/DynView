@@ -1,35 +1,42 @@
 package com.dynamic_view.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.config.ModConfig;
 import org.apache.commons.lang3.tuple.Pair;
 
+import net.minecraftforge.common.config.Config;
+
+@Config(modid = "dynview")
 public class Configuration
 {
-    /**
-     * Loaded everywhere, not synced
-     */
-    private final CommonConfiguration commonConfig;
+    @Config.Comment({ "Dynamic chunk view distance settings" })
+    public static DynamicChunk dynamicChunk;
 
-    /**
-     * Loaded clientside, not synced
-     */
-    // private final ClientConfiguration clientConfig;
-
-    /**
-     * Builds configuration tree.
-     */
-    public Configuration()
-    {
-        final Pair<CommonConfiguration, ForgeConfigSpec> com = new ForgeConfigSpec.Builder().configure(CommonConfiguration::new);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, com.getRight());
-
-        commonConfig = com.getLeft();
+    static {
+        Configuration.dynamicChunk = new DynamicChunk();
     }
 
-    public CommonConfiguration getCommonConfig()
+    public static class DynamicChunk
     {
-        return commonConfig;
+        @Config.Comment({ "The minimum chunk view distance allowed to use, set to what players should get at least. default: 4" })
+        @Config.RangeInt(min = 1, max = 200)
+        public int minChunkViewDist;
+        @Config.Comment({ "The maximum chunk view distance allowed to use, set to the max which a player could benefit from. default: 20" })
+        @Config.RangeInt(min = 1, max = 200)
+        public int maxChunkViewDist;
+        @Config.Comment({ "The average tick time to stabilize the chunk view distance around, setting it higher than 50ms is not advised, as after 50ms the tps will go below 20. default:40ms" })
+        @Config.RangeInt(min = 10, max = 100)
+        public int meanAvgTickTime;
+        @Config.Comment({ "The update frequency of average server tick time checks to update view distances, default is every 30 seconds" })
+        @Config.RangeInt(min = 1, max = 1000)
+        public int viewDistanceUpdateRate;
+        @Config.Comment({ "Whether to output log messages for actions done, its helpful to balance the other settings nicely." })
+        public boolean logMessages;
+
+        public DynamicChunk() {
+            this.minChunkViewDist = 4;
+            this.maxChunkViewDist = 20;
+            this.meanAvgTickTime = 45;
+            this.viewDistanceUpdateRate = 30;
+            this.logMessages = true;
+        }
     }
 }

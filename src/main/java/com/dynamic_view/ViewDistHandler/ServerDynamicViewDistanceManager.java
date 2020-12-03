@@ -2,7 +2,8 @@ package com.dynamic_view.ViewDistHandler;
 
 import com.dynamic_view.DynView;
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import com.dynamic_view.config.Configuration;
+import net.minecraftforge.fml.server.FMLServerHandler;
 
 public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceManager
 {
@@ -31,13 +32,13 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
     public void initViewDist()
     {
         currentChunkViewDist = minChunkViewDist;
-        ServerLifecycleHooks.getCurrentServer().getPlayerList().setViewDistance(minChunkViewDist);
+        FMLServerHandler.instance().getServer().getPlayerList().setViewDistance(this.currentChunkViewDist);
     }
 
     @Override
     public void updateViewDistForMeanTick(final int meanTickTime)
     {
-        final MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+        final MinecraftServer server = FMLServerHandler.instance().getServer();
 
         if (server.getPlayerList().getPlayers().isEmpty())
         {
@@ -47,7 +48,7 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
         if (meanTickTime - UPDATE_LEEWAY > meanTickToStayBelow && currentChunkViewDist > minChunkViewDist)
         {
             currentChunkViewDist--;
-            if (DynView.getConfig().getCommonConfig().logMessages.get())
+            if (Configuration.dynamicChunk.logMessages)
             {
                 DynView.LOGGER.info("Mean tick: " + meanTickTime + "ms decreasing chunk view distance to: " + currentChunkViewDist);
             }
@@ -57,7 +58,7 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
         if (meanTickTime + UPDATE_LEEWAY < meanTickToStayBelow && currentChunkViewDist < maxChunkViewDist)
         {
             currentChunkViewDist++;
-            if (DynView.getConfig().getCommonConfig().logMessages.get())
+            if (Configuration.dynamicChunk.logMessages)
             {
                 DynView.LOGGER.info("Mean tick: " + meanTickTime + "ms increasing chunk view distance to: " + currentChunkViewDist);
             }

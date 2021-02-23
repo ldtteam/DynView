@@ -36,7 +36,7 @@ public class CommonConfiguration
 
         builder.push("Chunk slow unload settings");
 
-        builder.comment("Enable slow chunk unloading(~1minute) after load, helps with mods hot-loading chunks frequently. Default: 30sec");
+        builder.comment("Enable slow chunk unloading(~1minute) after load, helps with mods hot-loading chunks frequently. Default: true");
         chunkunload = builder.define("chunkunload", true);
     }
 }

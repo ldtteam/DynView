@@ -9,6 +9,7 @@ public class CommonConfiguration
     public final ForgeConfigSpec.IntValue     meanAvgTickTime;
     public final ForgeConfigSpec.IntValue     viewDistanceUpdateRate;
     public final ForgeConfigSpec.BooleanValue logMessages;
+    public final ForgeConfigSpec.BooleanValue chunkunload;
 
     protected CommonConfiguration(final ForgeConfigSpec.Builder builder)
     {
@@ -32,5 +33,10 @@ public class CommonConfiguration
 
         // Escapes the current category level
         builder.pop();
+
+        builder.push("Chunk slow unload settings");
+
+        builder.comment("Enable slow chunk unloading(~1minute) after load, helps with mods hot-loading chunks frequently. Default: 30sec");
+        chunkunload = builder.define("chunkunload", true);
     }
 }

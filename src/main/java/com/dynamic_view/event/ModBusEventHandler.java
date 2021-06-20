@@ -14,7 +14,7 @@ import static com.dynamic_view.Constants.TICKS_A_SECOND;
 
 public class ModBusEventHandler
 {
-    private static final TicketType<ChunkPos> LUNKOWN = TicketType.create("unknown", Comparator.comparingLong(ChunkPos::asLong), 1201);
+    private static final TicketType<ChunkPos> LUNKOWN = TicketType.create("unknown", Comparator.comparingLong(ChunkPos::toLong), 1201);
     private static final TicketType<ChunkPos> OUNKOWN = TicketType.UNKNOWN;
 
     @SubscribeEvent

@@ -32,7 +32,7 @@ public class TickTimeHandler
 
         if (tickTimer % 20 == 0)
         {
-            meanTickSum += average(ServerLifecycleHooks.getCurrentServer().tickTimeArray) * 1.0E-6D;
+            meanTickSum += average(ServerLifecycleHooks.getCurrentServer().tickTimes) * 1.0E-6D;
             meanTickCount++;
 
             if (tickTimer >= serverTickTimerInterval)

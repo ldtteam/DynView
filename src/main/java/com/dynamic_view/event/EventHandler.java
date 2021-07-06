@@ -17,6 +17,10 @@ public class EventHandler
     @OnlyIn(Dist.DEDICATED_SERVER)
     public static void onDedicatedServerTick(final TickEvent.ServerTickEvent event)
     {
+        if (event.phase == TickEvent.Phase.START)
+        {
+            return;
+        }
         TickTimeHandler.getInstance().onServerTick();
     }
 

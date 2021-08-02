@@ -2,7 +2,7 @@ package com.dynamic_view.ViewDistHandler;
 
 import com.dynamic_view.DynView;
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.minecraftforge.fmllegacy.server.ServerLifecycleHooks;
 
 public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceManager
 {

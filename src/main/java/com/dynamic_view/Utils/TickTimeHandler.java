@@ -1,7 +1,7 @@
 package com.dynamic_view.Utils;
 
 import com.dynamic_view.ViewDistHandler.ServerDynamicViewDistanceManager;
-import net.minecraftforge.fmllegacy.server.ServerLifecycleHooks;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 public class TickTimeHandler
 {

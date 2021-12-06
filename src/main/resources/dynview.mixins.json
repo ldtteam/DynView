@@ -2,7 +2,7 @@
   "required": false,
   "minVersion": "0.8",
   "package": "com.dynview.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_17",
   "mixins": [
     "ChunkTypeMixin"
   ],

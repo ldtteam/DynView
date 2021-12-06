@@ -3,7 +3,7 @@
   "id": "dynview",
   "version": "${version}",
 
-  "name": "Example Mod",
+  "name": "Dynamic View Mod",
   "description": "Dynamic View automatically adjusts the servers view distance",
   "authors": [
     "Someaddon"
@@ -13,7 +13,7 @@
     "sources": ""
   },
 
-  "license": "ARR",
+  "license": "GPL",
   "icon": "assets/modid/icon.png",
 
   "environment": "*",

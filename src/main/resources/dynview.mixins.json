@@ -1,12 +1,12 @@
 {
   "required": false,
   "minVersion": "0.8",
-  "package": "com.farsight.mixin",
+  "package": "com.dynview.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "ChunkTypeMixin"
   ],
   "client": [
-    "ClientPlayNetHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "id": "farsight",
+  "id": "dynview",
   "version": "${version}",
 
   "name": "Example Mod",
-  "description": "Farsight lets you see further than the servers view distance",
+  "description": "Dynamic View automatically adjusts the servers view distance",
   "authors": [
     "Someaddon"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "",
+    "sources": ""
   },
 
   "license": "ARR",
@@ -19,11 +19,11 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.farsight.FarsightMod"
+      "com.dynview.DynView"
     ]
   },
   "mixins": [
-    "farsight.mixins.json"
+    "dynview.mixins.json"
   ],
 
   "depends": {

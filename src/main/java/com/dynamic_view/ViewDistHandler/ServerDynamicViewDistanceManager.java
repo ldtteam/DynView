@@ -10,9 +10,15 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
     private static       ServerDynamicViewDistanceManager instance;
     public static        int                              minChunkViewDist;
     public static        int                              maxChunkViewDist;
+    public static        int                              minChunkUpdateDist;
+    public static        int                              maxChunkUpdateDist;
     public static        double                           meanTickToStayBelow;
 
-    private int currentChunkViewDist = 0;
+    private boolean reduceViewDistance   = false;
+    private boolean increaseViewDistance = true;
+
+    private int currentChunkViewDist   = 0;
+    private int currentChunkUpdateDist = 0;
 
     private ServerDynamicViewDistanceManager()
     {
@@ -30,7 +36,8 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
     @Override
     public void initViewDist()
     {
-        currentChunkViewDist = minChunkViewDist;
+        currentChunkViewDist = (minChunkViewDist + maxChunkViewDist) / 2;
+        currentChunkUpdateDist = (minChunkUpdateDist + maxChunkUpdateDist) / 2;
         ServerLifecycleHooks.getCurrentServer().getPlayerList().setViewDistance(minChunkViewDist);
     }
 
@@ -44,24 +51,70 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
             return;
         }
 
-        if (meanTickTime - UPDATE_LEEWAY > meanTickToStayBelow && currentChunkViewDist > minChunkViewDist)
+        if (meanTickTime - UPDATE_LEEWAY > meanTickToStayBelow)
         {
-            currentChunkViewDist--;
-            if (DynView.getConfig().getCommonConfig().logMessages.get())
+            increaseViewDistance = true;
+
+            if (reduceViewDistance && currentChunkViewDist > minChunkViewDist)
             {
-                DynView.LOGGER.info("Mean tick: " + meanTickTime + "ms decreasing chunk view distance to: " + currentChunkViewDist);
+                reduceViewDistance = false;
+                currentChunkViewDist--;
+                if (DynView.getConfig().getCommonConfig().logMessages.get())
+                {
+                    DynView.LOGGER.info("Mean tick: " + meanTickTime + "ms decreasing chunk view distance to: " + currentChunkViewDist);
+                }
+                server.getPlayerList().setViewDistance(currentChunkViewDist);
+                return;
             }
-            server.getPlayerList().setViewDistance(currentChunkViewDist);
+
+            if (!reduceViewDistance && currentChunkUpdateDist > minChunkUpdateDist)
+            {
+                reduceViewDistance = true;
+                currentChunkUpdateDist--;
+                if (DynView.getConfig().getCommonConfig().logMessages.get())
+                {
+                    DynView.LOGGER.info("Mean tick: " + meanTickTime + "ms decreasing simulation distance to: " + currentChunkUpdateDist);
+                }
+                server.getAllLevels().forEach(level -> level.getChunkSource().setSimulationDistance(currentChunkUpdateDist));
+            }
+
+            if (!DynView.getConfig().getCommonConfig().adjustSimulationDistance.get())
+            {
+                reduceViewDistance = true;
+            }
         }
 
-        if (meanTickTime + UPDATE_LEEWAY < meanTickToStayBelow && currentChunkViewDist < maxChunkViewDist)
+        if (meanTickTime + UPDATE_LEEWAY < meanTickToStayBelow)
         {
-            currentChunkViewDist++;
-            if (DynView.getConfig().getCommonConfig().logMessages.get())
+            reduceViewDistance = false;
+
+            if (increaseViewDistance && currentChunkViewDist < maxChunkViewDist)
             {
-                DynView.LOGGER.info("Mean tick: " + meanTickTime + "ms increasing chunk view distance to: " + currentChunkViewDist);
+                increaseViewDistance = false;
+                currentChunkViewDist++;
+                if (DynView.getConfig().getCommonConfig().logMessages.get())
+                {
+                    DynView.LOGGER.info("Mean tick: " + meanTickTime + "ms increasing chunk view distance to: " + currentChunkViewDist);
+                }
+                server.getPlayerList().setViewDistance(currentChunkViewDist);
+                return;
             }
-            server.getPlayerList().setViewDistance(currentChunkViewDist);
+
+            if (!increaseViewDistance && currentChunkUpdateDist < maxChunkUpdateDist)
+            {
+                increaseViewDistance = true;
+                currentChunkUpdateDist++;
+                if (DynView.getConfig().getCommonConfig().logMessages.get())
+                {
+                    DynView.LOGGER.info("Mean tick: " + meanTickTime + "ms increasing simulation distance to: " + currentChunkUpdateDist);
+                }
+                server.getAllLevels().forEach(level -> level.getChunkSource().setSimulationDistance(currentChunkUpdateDist));
+            }
+
+            if (!DynView.getConfig().getCommonConfig().adjustSimulationDistance.get())
+            {
+                increaseViewDistance = true;
+            }
         }
     }
 }

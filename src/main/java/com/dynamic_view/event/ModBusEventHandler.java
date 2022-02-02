@@ -25,6 +25,8 @@ public class ModBusEventHandler
         // Server
         ServerDynamicViewDistanceManager.minChunkViewDist = DynView.getConfig().getCommonConfig().minChunkViewDist.get();
         ServerDynamicViewDistanceManager.maxChunkViewDist = DynView.getConfig().getCommonConfig().maxChunkViewDist.get();
+        ServerDynamicViewDistanceManager.minChunkUpdateDist = DynView.getConfig().getCommonConfig().minSimulationDist.get();
+        ServerDynamicViewDistanceManager.maxChunkUpdateDist = DynView.getConfig().getCommonConfig().maxSimulationDist.get();
         ServerDynamicViewDistanceManager.meanTickToStayBelow = DynView.getConfig().getCommonConfig().meanAvgTickTime.get();
 
         if (DynView.getConfig().getCommonConfig().chunkunload.get())

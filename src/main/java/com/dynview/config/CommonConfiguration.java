@@ -5,12 +5,15 @@ import com.google.gson.JsonObject;
 
 public class CommonConfiguration
 {
-    public int     minChunkViewDist       = 5;
-    public int     maxChunkViewDist       = 15;
-    public int     meanAvgTickTime        = 45;
-    public int     viewDistanceUpdateRate = 30;
-    public boolean logMessages            = true;
-    public boolean chunkunload            = true;
+    public int     minChunkViewDist         = 5;
+    public int     maxChunkViewDist         = 15;
+    public int     meanAvgTickTime          = 45;
+    public int     viewDistanceUpdateRate   = 30;
+    public boolean logMessages              = true;
+    public boolean chunkunload              = true;
+    public boolean adjustSimulationDistance = true;
+    public int     minSimulationDist        = 4;
+    public int     maxSimulationDist        = 10;
 
     public CommonConfiguration()
     {
@@ -41,6 +44,21 @@ public class CommonConfiguration
         entry4.addProperty("viewDistanceUpdateRate", viewDistanceUpdateRate);
         root.add("viewDistanceUpdateRate", entry4);
 
+        final JsonObject entry8 = new JsonObject();
+        entry8.addProperty("desc:", "The minimum simulation distance allowed to use. Default: 4, minimum 1, maximum 200");
+        entry8.addProperty("minSimulationDist", minSimulationDist);
+        root.add("minSimulationDist", entry8);
+
+        final JsonObject entry9 = new JsonObject();
+        entry9.addProperty("desc:", "The maximum simulation distance allowed to use. Default: 10, minimum 1, maximum 200");
+        entry9.addProperty("maxSimulationDist", maxSimulationDist);
+        root.add("maxSimulationDist", entry9);
+
+        final JsonObject entry7 = new JsonObject();
+        entry7.addProperty("desc:", "Enables automatic simulation distance adjustment. Default: true");
+        entry7.addProperty("adjustSimulationDistance", adjustSimulationDistance);
+        root.add("adjustSimulationDistance", entry7);
+
         final JsonObject entry5 = new JsonObject();
         entry5.addProperty("desc:", "Whether to output log messages for actions done. This can be helpful to balance the other settings nicely. Default = true");
         entry5.addProperty("logMessages", logMessages);
@@ -65,11 +83,14 @@ public class CommonConfiguration
         try
         {
             minChunkViewDist = data.get("minChunkViewDist").getAsJsonObject().get("minChunkViewDist").getAsInt();
+            minChunkViewDist = data.get("minSimulationDist").getAsJsonObject().get("minSimulationDist").getAsInt();
+            minChunkViewDist = data.get("maxSimulationDist").getAsJsonObject().get("maxSimulationDist").getAsInt();
             maxChunkViewDist = data.get("maxChunkViewDist").getAsJsonObject().get("maxChunkViewDist").getAsInt();
             meanAvgTickTime = data.get("meanAvgTickTime").getAsJsonObject().get("meanAvgTickTime").getAsInt();
             viewDistanceUpdateRate = data.get("viewDistanceUpdateRate").getAsJsonObject().get("viewDistanceUpdateRate").getAsInt();
             logMessages = data.get("logMessages").getAsJsonObject().get("logMessages").getAsBoolean();
             chunkunload = data.get("chunkunload").getAsJsonObject().get("chunkunload").getAsBoolean();
+            chunkunload = data.get("adjustSimulationDistance").getAsJsonObject().get("adjustSimulationDistance").getAsBoolean();
         }
         catch (Exception e)
         {

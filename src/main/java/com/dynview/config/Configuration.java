@@ -73,6 +73,8 @@ public class Configuration
         // Server
         ServerDynamicViewDistanceManager.minChunkViewDist = commonConfig.minChunkViewDist;
         ServerDynamicViewDistanceManager.maxChunkViewDist = commonConfig.maxChunkViewDist;
+        ServerDynamicViewDistanceManager.minChunkUpdateDist = commonConfig.minSimulationDist;
+        ServerDynamicViewDistanceManager.maxChunkUpdateDist = commonConfig.maxSimulationDist;
         ServerDynamicViewDistanceManager.meanTickToStayBelow = commonConfig.meanAvgTickTime;
     }
 

@@ -14,7 +14,7 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
     public static        int                              maxChunkUpdateDist;
     public static        double                           meanTickToStayBelow;
 
-    private boolean reduceViewDistance   = false;
+    private boolean reduceViewDistance   = true;
     private boolean increaseViewDistance = true;
 
     private int currentChunkViewDist   = 0;
@@ -39,6 +39,10 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
         currentChunkViewDist = (minChunkViewDist + maxChunkViewDist) / 2;
         currentChunkUpdateDist = (minChunkUpdateDist + maxChunkUpdateDist) / 2;
         ServerLifecycleHooks.getCurrentServer().getPlayerList().setViewDistance(minChunkViewDist);
+        if (DynView.getConfig().getCommonConfig().adjustSimulationDistance.get())
+        {
+            ServerLifecycleHooks.getCurrentServer().getAllLevels().forEach(level -> level.getChunkSource().setSimulationDistance(currentChunkUpdateDist));
+        }
     }
 
     @Override
@@ -57,7 +61,7 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
 
             if (reduceViewDistance && currentChunkViewDist > minChunkViewDist)
             {
-                reduceViewDistance = false;
+                reduceViewDistance = !DynView.getConfig().getCommonConfig().adjustSimulationDistance.get();
                 currentChunkViewDist--;
                 if (DynView.getConfig().getCommonConfig().logMessages.get())
                 {
@@ -90,7 +94,7 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
 
             if (increaseViewDistance && currentChunkViewDist < maxChunkViewDist)
             {
-                increaseViewDistance = false;
+                increaseViewDistance = !DynView.getConfig().getCommonConfig().adjustSimulationDistance.get();
                 currentChunkViewDist++;
                 if (DynView.getConfig().getCommonConfig().logMessages.get())
                 {

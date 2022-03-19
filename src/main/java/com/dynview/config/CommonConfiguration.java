@@ -79,22 +79,14 @@ public class CommonConfiguration
             DynView.LOGGER.error("Config file was empty!");
             return;
         }
-
-        try
-        {
-            minChunkViewDist = data.get("minChunkViewDist").getAsJsonObject().get("minChunkViewDist").getAsInt();
-            minChunkViewDist = data.get("minSimulationDist").getAsJsonObject().get("minSimulationDist").getAsInt();
-            minChunkViewDist = data.get("maxSimulationDist").getAsJsonObject().get("maxSimulationDist").getAsInt();
-            maxChunkViewDist = data.get("maxChunkViewDist").getAsJsonObject().get("maxChunkViewDist").getAsInt();
-            meanAvgTickTime = data.get("meanAvgTickTime").getAsJsonObject().get("meanAvgTickTime").getAsInt();
-            viewDistanceUpdateRate = data.get("viewDistanceUpdateRate").getAsJsonObject().get("viewDistanceUpdateRate").getAsInt();
-            logMessages = data.get("logMessages").getAsJsonObject().get("logMessages").getAsBoolean();
-            chunkunload = data.get("chunkunload").getAsJsonObject().get("chunkunload").getAsBoolean();
-            chunkunload = data.get("adjustSimulationDistance").getAsJsonObject().get("adjustSimulationDistance").getAsBoolean();
-        }
-        catch (Exception e)
-        {
-            DynView.LOGGER.error("Could not parse config file", e);
-        }
+        minChunkViewDist = data.get("minChunkViewDist").getAsJsonObject().get("minChunkViewDist").getAsInt();
+        minSimulationDist = data.get("minSimulationDist").getAsJsonObject().get("minSimulationDist").getAsInt();
+        maxSimulationDist = data.get("maxSimulationDist").getAsJsonObject().get("maxSimulationDist").getAsInt();
+        maxChunkViewDist = data.get("maxChunkViewDist").getAsJsonObject().get("maxChunkViewDist").getAsInt();
+        meanAvgTickTime = data.get("meanAvgTickTime").getAsJsonObject().get("meanAvgTickTime").getAsInt();
+        viewDistanceUpdateRate = data.get("viewDistanceUpdateRate").getAsJsonObject().get("viewDistanceUpdateRate").getAsInt();
+        logMessages = data.get("logMessages").getAsJsonObject().get("logMessages").getAsBoolean();
+        chunkunload = data.get("chunkunload").getAsJsonObject().get("chunkunload").getAsBoolean();
+        adjustSimulationDistance = data.get("adjustSimulationDistance").getAsJsonObject().get("adjustSimulationDistance").getAsBoolean();
     }
 }

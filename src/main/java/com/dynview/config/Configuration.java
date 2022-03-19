@@ -62,9 +62,19 @@ public class Configuration
             {
                 commonConfig.deserialize(gson.fromJson(Files.newBufferedReader(configPath), JsonObject.class));
             }
-            catch (IOException e)
+            catch (Exception e)
             {
-                DynView.LOGGER.error("Could not read config from:" + configPath, e);
+                DynView.LOGGER.error("Could not read config from:" + configPath + " recreating default", e);
+                try
+                {
+                    final BufferedWriter writer = Files.newBufferedWriter(configPath);
+                    gson.toJson(commonConfig.serialize(), JsonObject.class, writer);
+                    writer.close();
+                }
+                catch (Exception ex)
+                {
+                    DynView.LOGGER.error("Could not write config to:" + configPath, ex);
+                }
             }
         }
 

@@ -1,5 +1,6 @@
 package com.dynview.mixin;
 
+import com.dynview.DynView;
 import net.minecraft.server.world.ChunkTicketType;
 import net.minecraft.util.math.ChunkPos;
 import org.spongepowered.asm.mixin.Final;
@@ -15,5 +16,6 @@ public class ChunkTypeMixin
     @Shadow
     @Final
     @Mutable
-    public static ChunkTicketType<ChunkPos> UNKNOWN = ChunkTicketType.create("unknown", Comparator.comparingLong(ChunkPos::toLong), 1201);
+    public static ChunkTicketType<ChunkPos> UNKNOWN =
+      ChunkTicketType.create("unknown", Comparator.comparingLong(ChunkPos::toLong), DynView.getConfig().getCommonConfig().chunkunload ? 1201 : 1);
 }

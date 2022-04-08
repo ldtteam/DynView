@@ -2,8 +2,10 @@ package com.dynamic_view.event;
 
 import com.dynamic_view.Utils.TickTimeHandler;
 import com.dynamic_view.ViewDistHandler.ServerDynamicViewDistanceManager;
+import com.dynamic_view.command.EntryPoint;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -29,5 +31,11 @@ public class EventHandler
     public static void onWorldLoad(final WorldEvent.Load event)
     {
         ServerDynamicViewDistanceManager.getInstance().initViewDist();
+    }
+
+    @SubscribeEvent
+    public static void onCommandsRegister(final RegisterCommandsEvent event)
+    {
+        EntryPoint.register(event.getDispatcher());
     }
 }

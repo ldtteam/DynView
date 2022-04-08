@@ -2,6 +2,7 @@ package com.dynamic_view.ViewDistHandler;
 
 import com.dynamic_view.DynView;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.Mth;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
 public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceManager
@@ -120,5 +121,19 @@ public class ServerDynamicViewDistanceManager implements IDynamicViewDistanceMan
                 increaseViewDistance = true;
             }
         }
+    }
+
+    @Override
+    public void setCurrentChunkViewDist(final int currentChunkViewDist)
+    {
+        this.currentChunkViewDist = Mth.clamp(currentChunkViewDist, 0, 200);
+        ServerLifecycleHooks.getCurrentServer().getPlayerList().setViewDistance(this.currentChunkViewDist);
+    }
+
+    @Override
+    public void setCurrentChunkUpdateDist(final int currentChunkUpdateDist)
+    {
+        this.currentChunkUpdateDist = Mth.clamp(currentChunkUpdateDist, 0, 200);
+        ServerLifecycleHooks.getCurrentServer().getAllLevels().forEach(level -> level.getChunkSource().setSimulationDistance(this.currentChunkUpdateDist));
     }
 }

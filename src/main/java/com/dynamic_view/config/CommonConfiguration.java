@@ -21,8 +21,8 @@ public class CommonConfiguration
         builder.comment("The minimum chunk view distance allowed to use. Default: 4");
         minChunkViewDist = builder.defineInRange("minChunkViewDist", 5, 3, 200);
 
-        builder.comment("The maximum chunk view distance allowed to use. Set to the max a player could benefit from. Default: 12");
-        maxChunkViewDist = builder.defineInRange("maxChunkViewDist", 12, 1, 200);
+        builder.comment("The maximum chunk view distance allowed to use. Set to the max a player could benefit from. Default: 15");
+        maxChunkViewDist = builder.defineInRange("maxChunkViewDist", 15, 1, 200);
 
         builder.comment("The minimum simulation distance allowed to use. Default: 4");
         minSimulationDist = builder.defineInRange("minSimulationDist", 4, 1, 200);
@@ -35,7 +35,7 @@ public class CommonConfiguration
         meanAvgTickTime = builder.defineInRange("meanAvgTickTime", 45, 10, 100);
 
         builder.comment("The update frequency of average server tick time checks to update view distances. Default: 30sec");
-        viewDistanceUpdateRate = builder.defineInRange("viewDistanceUpdateRate", 30, 1, 1000);
+        viewDistanceUpdateRate = builder.defineInRange("viewDistanceUpdateRate", 60, 1, 1000);
 
         builder.comment("Whether to adjust the simulation distance aswell, default: true.");
         adjustSimulationDistance = builder.define("adjustSimulationDistance", true);

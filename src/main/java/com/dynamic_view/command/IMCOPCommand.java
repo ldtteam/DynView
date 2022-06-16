@@ -2,7 +2,7 @@ package com.dynamic_view.command;
 
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 
@@ -30,7 +30,7 @@ public interface IMCOPCommand extends IMCCommand
 
         if (!IMCCommand.isPlayerOped((Player) sender))
         {
-            sender.sendMessage(new TextComponent("You need to be OP for this command."), sender.getUUID());
+            context.getSource().sendFailure(Component.literal("You need to be OP for this command."));
             return false;
         }
         return true;

@@ -7,7 +7,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 /**
@@ -28,7 +28,7 @@ public class EventHandler
 
     @SubscribeEvent
     @OnlyIn(Dist.DEDICATED_SERVER)
-    public static void onWorldLoad(final WorldEvent.Load event)
+    public static void onWorldLoad(final LevelEvent.Load event)
     {
         ServerDynamicViewDistanceManager.getInstance().initViewDist();
     }

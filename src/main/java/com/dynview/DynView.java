@@ -21,16 +21,25 @@ public class DynView implements ModInitializer
 
     public static Configuration getConfig()
     {
+        init();
         return config;
     }
 
     @Override
     public void onInitialize()
     {
-        config = new Configuration();
-        config.load();
+        init();
+    }
 
-        ServerLifecycleEvents.SERVER_STARTED.register(EventHandler::onServerStarted);
-        ServerTickEvents.END_SERVER_TICK.register(EventHandler::onDedicatedServerTick);
+    private static void init()
+    {
+        if (config == null)
+        {
+            config = new Configuration();
+            config.load();
+
+            ServerLifecycleEvents.SERVER_STARTED.register(EventHandler::onServerStarted);
+            ServerTickEvents.END_SERVER_TICK.register(EventHandler::onDedicatedServerTick);
+        }
     }
 }
